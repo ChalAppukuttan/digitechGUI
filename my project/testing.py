@@ -1,22 +1,61 @@
 import tkinter as tk
 import random
+import os
 
 # List of colors for the stroop test
 colors = ['Red', 'Blue', 'Green', 'Pink', 'Black', 'Yellow', 'Orange', 'White', 'Purple', 'Brown']
 score = 0
 timeleft = 60
 return_count = 0  # variable to count the number of times return key is pressed
-questions_left = 31
+questions_left = 30
+
+
+def write_score_to_file(score):
+    filename = 'leaderboard.txt'
+
+    # Check if file does not exist
+    if not os.path.exists(filename):
+        # Create the file
+        open(filename, 'w').close()
+
+    # Now write the score to the file
+    with open(filename, 'a') as f:
+        f.write(str(score) + '\n')
 
 
 def endMenu():
+    global score
     # Hide the game elements
+    write_score_to_file(score)
     instructions.pack_forget()
     questionsLabel.pack_forget()
     timeLabel.pack_forget()
     label.pack_forget()
     e.pack_forget()
     startButton.pack_forget()
+
+    filename = 'leaderboard.txt'
+
+    # Check if file does not exist
+    if not os.path.exists(filename):
+        # Create the file
+        open(filename, 'w').close()
+
+    # Now read scores from file and sort them in descending order
+    with open(filename, 'r') as f:
+        scores = [int(line.strip()) for line in f if line.strip() != '']
+    scores.sort(reverse=True)
+
+    # Create leaderboard label
+    leaderboard_label = tk.Label(hydra, text="Leaderboard:", font=('Helvetica', 12))
+    leaderboard_label.pack()
+
+    # Display top 10 scores
+    for i, score in enumerate(scores[:10]):
+        score_label = tk.Label(hydra, text=f"{i + 1}. {score}", font=('Helvetica', 12))
+        score_label.pack()
+
+
 
 def startGame(event):
     global timeleft
@@ -55,6 +94,9 @@ def countdown():
         timeLabel.config(text="Time left: " + str(timeleft))
         timeLabel.after(1000, countdown)
 
+
+
+
 def startMenu():
     # Hide the game elements
     instructions.pack_forget()
@@ -84,8 +126,7 @@ def startGameFromMenu():
     e.pack()
     startButton.pack()
 
-    # Start the game
-    startGame()
+
 
 hydra = tk.Tk()
 hydra.title("Stroop Test")
@@ -108,6 +149,7 @@ startButton = tk.Button(hydra, text="Start Game", command=startGame)
 menuLabel = tk.Label(hydra, text="Welcome to the Stroop Test Game!", font=('Helvetica', 30))
 
 playButton = tk.Button(hydra, text="Play", command=startGameFromMenu)
+
 
 # Start with the menu
 startMenu()
