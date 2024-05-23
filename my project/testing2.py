@@ -74,7 +74,7 @@ def startGame(event):
     if questions_left == -1 or 0:
         questions_left = questions_left * -1
         endMenu()
-    if return_count == 30:
+    elif return_count == 30:
         timeleft = 0
     if timeleft == 60:
         countdown()
@@ -105,6 +105,7 @@ def countdown():
         timeleft -= 1
         timeLabel.config(text="Time left: " + str(timeleft))
         timeLabel.after(1000, countdown)
+
 
 def startMenu():
     """
@@ -145,7 +146,7 @@ hydra = tk.Tk()
 hydra.title("Stroop Test")  # Set the title of the window
 hydra.geometry("1820x1080")  # Set the size of the window
 
-# Create and configure the various labels and buttons
+# Create and configure labels and buttons
 instructions = tk.Label(hydra, text="Type in the color of the words, not the word text!", font=('Helvetica', 12))
 
 scoreLabel = tk.Label(hydra, text="Press enter to start", font=('Helvetica', 12))
