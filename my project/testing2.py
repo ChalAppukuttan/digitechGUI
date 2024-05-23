@@ -3,7 +3,7 @@ import random  # Import the random library for shuffling colors
 import os  # Import the os library for file operations
 
 # List of colors for the Stroop test
-colors = ['Red', 'Blue', 'Green', 'Pink', 'Black', 'Yellow', 'Orange', 'White', 'Purple', 'Brown']
+colors = ['Red', 'Blue', 'Green', 'Purple', 'Brown']
 score = 0  # Initialize the score to 0
 timeleft = 60  # Set the initial time left to 60 seconds
 return_count = 0  # Variable to count the number of times the return key is pressed
