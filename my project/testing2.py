@@ -37,7 +37,7 @@ def endMenu():
     questionsLabel.pack_forget()
     timeLabel.pack_forget()
     label.pack_forget()
-    e.pack_forget()
+    e.destroy()
     startButton.pack_forget()
 
     filename = 'leaderboard.txt'
@@ -123,6 +123,8 @@ def startMenu():
     # Show the menu elements
     menuLabel.pack()
     playButton.pack()
+    d.pack()
+
 
 def startGameFromMenu():
     """
@@ -139,7 +141,7 @@ def startGameFromMenu():
     timeLabel.pack()
     label.pack()
     e.pack()
-    startButton.pack()
+
 
 # Create the main application window
 hydra = tk.Tk()
@@ -147,7 +149,7 @@ hydra.title("Stroop Test")  # Set the title of the window
 hydra.geometry("1820x1080")  # Set the size of the window
 
 # Create and configure labels and buttons
-instructions = tk.Label(hydra, text="Type in the color of the words, not the word text!", font=('Helvetica', 12))
+instructions = tk.Label(hydra, text="Type in the color of the word, not the word itself!", font=('Helvetica', 12))
 
 scoreLabel = tk.Label(hydra, text="Press enter to start", font=('Helvetica', 12))
 
@@ -158,6 +160,8 @@ timeLabel = tk.Label(hydra, text="Time left: " + str(timeleft), font=('Helvetica
 label = tk.Label(hydra, font=('Helvetica', 60))
 
 e = tk.Entry(hydra)
+
+d = tk.Entry(hydra)
 
 startButton = tk.Button(hydra, text="Start Game", command=startGame)
 
