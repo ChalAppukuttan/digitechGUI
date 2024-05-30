@@ -37,13 +37,15 @@ class StroopTestGame:
         # Label for the menu
         self.menuLabel = tk.Label(self.master, text="Welcome to the Stroop Test Game!", font=('Helvetica', 30))
         # Button to play the game from the menu
-        self.playButton = tk.Button(self.master, text="Play", command=self.start_game_from_menu)
-
+        self.playButton = tk.Button(self.master, text="Play", font=200, command=self.start_game_from_menu)
+        # Back button from the game menu
+        self.backButton = tk.Button(self.master, text="Back", font=200, command=self.start_menu)
     def start_menu(self):
         """Display the start menu and hide game elements."""
         self.hide_game_elements()
         self.menuLabel.pack()
-        self.playButton.pack()
+        self.playButton.place(x=200, y=650)
+        self.backButton.place_forget()
 
     def start_game_from_menu(self):
         """Start the game from the menu, resetting all variables and displaying game elements."""
@@ -51,7 +53,8 @@ class StroopTestGame:
         self.show_game_elements()
         self.reset_game()
         self.e.focus_set()  # Ensure the entry widget is focused
-
+        self.backButton.place(x=200, y=650)
+        self.playButton.place_forget()
     def reset_game(self):
         """Reset the game variables and update the GUI elements accordingly."""
         self.score = 0
@@ -72,11 +75,11 @@ class StroopTestGame:
         self.label.pack_forget()
         self.e.pack_forget()
         self.startButton.pack_forget()
-
+        self.backButton.forget()
     def hide_menu_elements(self):
         """Hide all menu-related GUI elements."""
         self.menuLabel.pack_forget()
-        self.playButton.pack_forget()
+        self.playButton.forget()
 
     def show_game_elements(self):
         """Show all game-related GUI elements."""
@@ -87,13 +90,14 @@ class StroopTestGame:
         self.label.pack()
         self.e.pack()
         self.startButton.pack()
+        self.backButton.pack()
 
     def write_score_to_file(self, score):
         """Write the final score to a file called 'leaderboard.txt'."""
         filename = 'leaderboard.txt'
         with open(filename, 'a') as f:
             f.write(f"{score}\n")
-
+    
     def display_leaderboard(self):
         """Display the leaderboard with the top scores."""
         self.write_score_to_file(self.score)
@@ -102,8 +106,8 @@ class StroopTestGame:
         with open(filename, 'r') as f:
             scores = sorted([int(line.strip()) for line in f if line.strip().isdigit()], reverse=True)
 
-        leaderboard_label = tk.Label(self.master, text="Leaderboard:", font=('Helvetica', 12))
-        leaderboard_label.pack()
+        self.leaderboard_label = tk.Label(self.master, text="Leaderboard:", font=('Helvetica', 12))
+        self.leaderboard_label.pack()
         for i, score in enumerate(scores[:10]):
             score_label = tk.Label(self.master, text=f"{i + 1}#  {score}", font=('Helvetica', 12))
             score_label.pack()
@@ -134,7 +138,7 @@ class StroopTestGame:
             self.e.focus_set()  # Ensure the entry widget is focused
 
     def countdown(self):
-        """Handle the countdown timer for the game."""
+        """Handle the countdown timer."""
         if self.timeleft > 0:
             self.timeleft -= 1
             self.timeLabel.config(text=f"Time left: {self.timeleft}")
