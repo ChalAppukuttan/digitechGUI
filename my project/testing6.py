@@ -40,13 +40,14 @@ class StroopTestGame:
         self.playButton = tk.Button(self.master, text="Play", font=200, command=self.start_game_from_menu)
         # Back button from the game menu
         self.backButton = tk.Button(self.master, text="Back", font=200, command=self.start_menu)
+
     def start_menu(self):
         """Display the start menu and hide game elements."""
         self.hide_game_elements()
+        self.hide_leaderboard()
         self.menuLabel.pack()
         self.playButton.place(x=200, y=650)
         self.backButton.place_forget()
-        self.hide_leaderboard()
 
     def start_game_from_menu(self):
         """Start the game from the menu, resetting all variables and displaying game elements."""
@@ -56,6 +57,7 @@ class StroopTestGame:
         self.e.focus_set()  # Ensure the entry widget is focused
         self.backButton.place(x=200, y=650)
         self.playButton.place_forget()
+
     def reset_game(self):
         """Reset the game variables and update the GUI elements accordingly."""
         self.score = 0
@@ -76,12 +78,12 @@ class StroopTestGame:
         self.label.pack_forget()
         self.e.pack_forget()
         self.startButton.pack_forget()
-        self.backButton.forget()
+        self.backButton.pack_forget()
 
     def hide_menu_elements(self):
         """Hide all menu-related GUI elements."""
         self.menuLabel.pack_forget()
-        self.playButton.forget()
+        self.playButton.place_forget()
 
     def show_game_elements(self):
         """Show all game-related GUI elements."""
@@ -93,6 +95,14 @@ class StroopTestGame:
         self.e.pack()
         self.startButton.pack()
         self.backButton.pack()
+
+    def hide_leaderboard(self):
+        """Hide all leaderboard-related GUI elements."""
+        if hasattr(self, 'leaderboard_label'):
+            self.leaderboard_label.pack_forget()
+        if hasattr(self, 'score_labels'):
+            for label in self.score_labels:
+                label.pack_forget()
 
     def write_score_to_file(self, score):
         """Write the final score to a file called 'leaderboard.txt'."""
@@ -115,14 +125,6 @@ class StroopTestGame:
             score_label = tk.Label(self.master, text=f"{i + 1}#  {score}", font=('Helvetica', 12))
             score_label.pack()
             self.score_labels.append(score_label)
-
-    def hide_leaderboard(self):
-        """Hide all leaderboard-related GUI elements."""
-        if hasattr(self, 'leaderboard_label'):
-            self.leaderboard_label.pack_forget()
-        if hasattr(self, 'score_labels'):
-            for label in self.score_labels:
-                label.pack_forget()
 
     def start_game(self, event=None):
         """Handle the start of the game or the next question after pressing Enter."""
