@@ -46,7 +46,6 @@ class StroopTestGame:
         self.menuLabel.pack()
         self.playButton.place(x=200, y=650)
         self.backButton.place_forget()
-        self.hide_leaderboard()
 
     def start_game_from_menu(self):
         """Start the game from the menu, resetting all variables and displaying game elements."""
@@ -110,19 +109,9 @@ class StroopTestGame:
 
         self.leaderboard_label = tk.Label(self.master, text="Leaderboard:", font=('Helvetica', 12))
         self.leaderboard_label.pack()
-        self.score_labels = []
         for i, score in enumerate(scores[:10]):
-            score_label = tk.Label(self.master, text=f"{i + 1}#  {score}", font=('Helvetica', 12))
-            score_label.pack()
-            self.score_labels.append(score_label)
-
-    def hide_leaderboard(self):
-        """Hide all leaderboard-related GUI elements."""
-        if hasattr(self, 'leaderboard_label'):
-            self.leaderboard_label.pack_forget()
-        if hasattr(self, 'score_labels'):
-            for label in self.score_labels:
-                label.pack_forget()
+            self.score_label = tk.Label(self.master, text=f"{i + 1}#  {score}", font=('Helvetica', 12))
+            self.score_label.pack()
 
     def start_game(self, event=None):
         """Handle the start of the game or the next question after pressing Enter."""
