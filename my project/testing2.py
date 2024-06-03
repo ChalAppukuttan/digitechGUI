@@ -148,6 +148,8 @@ hydra = tk.Tk()
 hydra.title("Stroop Test")  # Set the title of the window
 hydra.geometry("1820x1080")  # Set the size of the window
 
+
+
 # Create and configure labels and buttons
 instructions = tk.Label(hydra, text="Type in the color of the word, not the word itself!", font=('Helvetica', 12))
 
