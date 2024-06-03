@@ -44,7 +44,6 @@ class StroopTestGame:
         self.leaderboardButton = tk.Button(self.master, text="Leaderboard", font=200, command=self.display_leaderboard)
         # Button to close leaderboard
         self.leaderboardcloseButton = tk.Button(self.master, text="Leaderboard", font=200, command=self.hide_leaderboard)
-        # leaderboard button for in game
         self.leaderboardcloseButton2 = tk.Button(self.master, text="Leaderboard", font=200,command=self.start_menu)
     def start_menu(self):
         """Display the start menu and hide game elements."""
@@ -54,6 +53,7 @@ class StroopTestGame:
         self.playButton.place(x=200, y=650)
         self.leaderboardButton.place(x=200, y=400)
         self.backButton.place_forget()
+
     def start_game_from_menu(self):
         """Start the game from the menu, resetting all variables and displaying game elements."""
         self.hide_menu_elements()
@@ -131,7 +131,7 @@ class StroopTestGame:
             score_label = tk.Label(self.master, text=f"{i + 1}#  {score}", font=('Helvetica', 12))
             score_label.pack()
             self.score_labels.append(score_label)
-        self.leaderboardcloseButton2.place(x=200,y=400)
+        self.leaderboardcloseButton.place(x=200,y=400)
 
     def start_game(self, event=None):
         """Handle the start of the game or the next question after pressing Enter."""
