@@ -33,7 +33,7 @@ class StroopTestGame:
         # Entry widget for user input
         self.e = tk.Entry(self.master)
         # Button to start the game
-        self.startButton = tk.Button(self.master, text="Start Game", command=self.start_game)
+        self.startButton = tk.Button(self.master, text="Start Game", command=self.next_color)
         # Label for the menu
         self.menuLabel = tk.Label(self.master, text="Welcome to the Stroop Test Game!", font=('Helvetica', 30))
         # Button to play the game from the menu
@@ -44,7 +44,7 @@ class StroopTestGame:
         self.leaderboardButton = tk.Button(self.master, text="Leaderboard", font=200, command=self.display_leaderboard)
         # Button to close leaderboard
         self.leaderboardcloseButton = tk.Button(self.master, text="Leaderboard", font=200, command=self.hide_leaderboard)
-        self.leaderboardcloseButton2 = tk.Button(self.master, text="Leaderboard", font=200, command=self.start_menu)
+        #self.leaderboardcloseButton2 = tk.Button(self.master, text="Leaderboard", font=200, command=self.start_menu)
 
     def start_menu(self):
         """Display the start menu and hide game elements."""
@@ -99,9 +99,20 @@ class StroopTestGame:
         self.questionsLabel.pack()
         self.timeLabel.pack()
         self.label.pack()
+        self.startButton.pack()
+        self.backButton.pack()
+
+    def show_game_elements_2(self):
+        """Show all game-related GUI elements."""
+        self.instructions.pack()
+        self.scoreLabel.pack()
+        self.questionsLabel.pack()
+        self.timeLabel.pack()
+        self.label.pack()
         self.e.pack()
         self.startButton.pack()
         self.backButton.pack()
+
 
     def hide_leaderboard(self):
         """Hide all leaderboard-related GUI elements."""
@@ -135,6 +146,7 @@ class StroopTestGame:
 
     def start_game(self, event=None):
         """Handle the start of the game or the next question after pressing Enter."""
+        self.e.pack()
         self.return_count += 1
         self.questions_left -= 1
         self.questionsLabel.config(text=f"Questions Left: {self.questions_left}/30")
@@ -150,6 +162,7 @@ class StroopTestGame:
 
     def next_color(self):
         """Display the next color word and update the score if the previous input was correct."""
+        self.e.pack()
         if self.timeleft > 0:
             if self.e.get().lower() == self.colors[1].lower():
                 self.score += 1
@@ -157,6 +170,7 @@ class StroopTestGame:
             random.shuffle(self.colors)
             self.label.config(fg=self.colors[1], text=self.colors[0])
             self.scoreLabel.config(text=f"Score: {self.score}")
+            self.startButton.pack_forget()
             self.e.focus_set()  # Ensure the entry widget is focused
 
     def countdown(self):
@@ -171,7 +185,8 @@ if __name__ == "__main__":
     # Initialize the main Tkinter window
     hydra = tk.Tk()
     hydra.title("Stroop Test")
-    hydra.geometry("1820x1080")
+    hydra.state("zoomed")
+    # hydra.geometry("1820x1080")
     # Create an instance of the StroopTestGame
     game = StroopTestGame(hydra)
     # Bind the Return key to the start_game method
