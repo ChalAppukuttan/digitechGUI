@@ -9,7 +9,7 @@ class StroopTestGame:
         self.colors = ['Red', 'Blue', 'Green', 'Purple', 'Brown']
         # Initial game state variables
         self.score = 0
-        self.timeleft = 60
+        self.timeleft = 30
         self.questions_left = 30
         self.return_count = 0
 
@@ -35,7 +35,7 @@ class StroopTestGame:
         # Button to start the game
         self.startButton = tk.Button(self.master, text="Start Game", command=self.next_color)
         # Label for the menu
-        self.menuLabel = tk.Label(self.master, text="Welcome to the Stroop Test Game!", font=('Helvetica', 30))
+        self.menuLabel = tk.Label(self.master, text="Welcome to the Stroop Test Game!", font=('Helvetica', 20))
         # Button to play the game from the menu
         self.playButton = tk.Button(self.master, text="Play", font=200, command=self.start_game_from_menu)
         # Back button from the game menu
@@ -43,17 +43,18 @@ class StroopTestGame:
         # leaderboard button
         self.leaderboardButton = tk.Button(self.master, text="Leaderboard", font=200, command=self.display_leaderboard)
         # Button to close leaderboard
-        self.leaderboardcloseButton = tk.Button(self.master, text="Leaderboard", font=200, command=self.hide_leaderboard)
+        self.leaderboardcloseButton = tk.Button(self.master, text="Close Leaderboard", font=200, command=self.hide_leaderboard)
+
         #self.leaderboardcloseButton2 = tk.Button(self.master, text="Leaderboard", font=200, command=self.start_menu)
 
     def start_menu(self):
         """Display the start menu and hide game elements."""
         self.hide_game_elements()
+        self.menuLabel.pack(padx=5,pady=5)
+        self.playButton.pack(padx=5,pady=5)
+        self.leaderboardButton.pack(padx=5,pady=5)
+        self.backButton.pack_forget()
         self.hide_leaderboard()
-        self.menuLabel.pack()
-        self.playButton.place(x=200, y=650)
-        self.leaderboardButton.place(x=200, y=400)
-        self.backButton.place_forget()
 
     def start_game_from_menu(self):
         """Start the game from the menu, resetting all variables and displaying game elements."""
@@ -62,13 +63,13 @@ class StroopTestGame:
         self.show_game_elements()
         self.reset_game()
         self.e.focus_set()  # Ensure the entry widget is focused
-        self.backButton.place(x=200, y=650)
-        self.playButton.place_forget()
+        self.backButton.pack(padx=5,pady=5)
+        self.playButton.pack_forget()
 
     def reset_game(self):
         """Reset the game variables and update the GUI elements accordingly."""
         self.score = 0
-        self.timeleft = 60
+        self.timeleft = 30
         self.questions_left = 30
         self.return_count = 0
         self.scoreLabel.config(text="Score: 0")
@@ -90,28 +91,29 @@ class StroopTestGame:
     def hide_menu_elements(self):
         """Hide all menu-related GUI elements."""
         self.menuLabel.pack_forget()
-        self.playButton.place_forget()
+        self.playButton.pack_forget()
 
     def show_game_elements(self):
         """Show all game-related GUI elements."""
-        self.instructions.pack()
-        self.scoreLabel.pack()
-        self.questionsLabel.pack()
-        self.timeLabel.pack()
-        self.label.pack()
-        self.startButton.pack()
-        self.backButton.pack()
+        self.instructions.pack(padx=5,pady=5)
+        self.scoreLabel.pack(padx=5,pady=5)
+        self.questionsLabel.pack(padx=5,pady=5)
+        self.timeLabel.pack(padx=5,pady=5)
+        self.label.pack(padx=5,pady=5)
+        self.startButton.pack(padx=5,pady=5)
+        self.backButton.pack(padx=5,pady=5)
+        self.leaderboardButton.pack_forget()
 
     def show_game_elements_2(self):
         """Show all game-related GUI elements."""
-        self.instructions.pack()
-        self.scoreLabel.pack()
-        self.questionsLabel.pack()
-        self.timeLabel.pack()
-        self.label.pack()
-        self.e.pack()
-        self.startButton.pack()
-        self.backButton.pack()
+        self.instructions.pack(padx=5,pady=5)
+        self.scoreLabel.pack(padx=5,pady=5)
+        self.questionsLabel.pack(padx=5,pady=5)
+        self.timeLabel.pack(padx=5,pady=5)
+        self.label.pack(padx=5,pady=5)
+        self.e.pack(padx=5,pady=5)
+        self.startButton.pack(padx=5,pady=5)
+        self.backButton.pack(padx=5,pady=5)
 
 
     def hide_leaderboard(self):
@@ -121,13 +123,14 @@ class StroopTestGame:
         if hasattr(self, 'score_labels'):
             for label in self.score_labels:
                 label.pack_forget()
-        self.leaderboardcloseButton.place_forget()
+        self.leaderboardcloseButton.pack_forget()
+        self.leaderboardButton.pack(padx=5,pady=5)
 
     def save_score(self):
         """Write the final score to a file called 'leaderboard.txt'."""
         filename = 'leaderboard.txt'
         with open(filename, 'a') as f:
-            f.write(f"{self.score}\n")
+            f.write(f"{self.score}")
 
     def display_leaderboard(self):
         """Display the leaderboard with the top scores."""
@@ -136,13 +139,29 @@ class StroopTestGame:
         with open(filename, 'r') as f:
             scores = sorted([int(line.strip()) for line in f if line.strip().isdigit()], reverse=True)
         self.leaderboard_label = tk.Label(self.master, text="Leaderboard:", font=('Helvetica', 12))
-        self.leaderboard_label.pack()
+        self.leaderboard_label.pack(padx=5,pady=5)
         self.score_labels = []
         for i, score in enumerate(scores[:10]):
             score_label = tk.Label(self.master, text=f"{i + 1}#  {score}", font=('Helvetica', 12))
             score_label.pack()
             self.score_labels.append(score_label)
-        self.leaderboardcloseButton.place(x=200, y=400)
+        self.leaderboardcloseButton.pack(padx=5,pady=5)
+        self.leaderboardButton.pack_forget()
+
+    def display_leaderboard2(self):
+        """Display the leaderboard with the top scores."""
+        self.hide_game_elements()
+        filename = 'leaderboard.txt'
+        with open(filename, 'r') as f:
+            scores = sorted([int(line.strip()) for line in f if line.strip().isdigit()], reverse=True)
+        self.leaderboard_label = tk.Label(self.master, text="Leaderboard:", font=('Helvetica', 12))
+        self.leaderboard_label.pack(padx=5,pady=5)
+        self.score_labels = []
+        for i, score in enumerate(scores[:10]):
+            score_label = tk.Label(self.master, text=f"{i + 1}#  {score}", font=('Helvetica', 12))
+            score_label.pack(padx=5,pady=5)
+            self.score_labels.append(score_label)
+        self.backButton.pack(padx=5,pady=5)
 
     def start_game(self, event=None):
         """Handle the start of the game or the next question after pressing Enter."""
@@ -153,7 +172,7 @@ class StroopTestGame:
 
         if self.questions_left == 0:
             self.save_score()  # Save the score when the game ends
-            self.display_leaderboard()
+            self.display_leaderboard2()
         elif self.return_count == 1:
             self.countdown()
             self.next_color()
@@ -162,7 +181,9 @@ class StroopTestGame:
 
     def next_color(self):
         """Display the next color word and update the score if the previous input was correct."""
-        self.e.pack()
+        self.backButton.pack_forget()
+        self.e.pack(padx=5,pady=5)
+        self.backButton.pack()
         if self.timeleft > 0:
             if self.e.get().lower() == self.colors[1].lower():
                 self.score += 1
@@ -186,7 +207,7 @@ if __name__ == "__main__":
     hydra = tk.Tk()
     hydra.title("Stroop Test")
     #hydra.state("zoomed")
-    hydra.geometry("1820x1080")
+    hydra.geometry("600x400+600+300")
     # Create an instance of the StroopTestGame
     game = StroopTestGame(hydra)
     # Bind the Return key to the start_game method
